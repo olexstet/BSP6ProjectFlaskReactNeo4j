@@ -22,38 +22,20 @@ def checkOtherMeanings(word):
 def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):
     result = []
 
-    if checkOtherMeanings(word) == previousHyponyms:
-        hyponyms = []
-        for synset in previousHyponyms:
-            hyponyms += synset.hyponyms()
-        print(previousHyponyms[0], hyponyms)
+    for synset in previousHyponyms: 
+        hyponyms = synset.hyponyms()
+        print(synset, hyponyms)
         if type(numberHyp) == int: 
             length = len(hyponyms)
             if length > numberHyp: 
                 result += hyponyms[:numberHyp]
-                paths[(dist,previousHyponyms[0])] = hyponyms[:numberHyp]
+                paths[(dist,synset)] = hyponyms[:numberHyp]
             else: 
                 result += hyponyms 
-                paths[(dist,previousHyponyms[0])] = hyponyms
+                paths[(dist,synset)] = hyponyms
         else:
             result += hyponyms
-            paths[(dist,previousHypernyms[0])] = hyponyms
-
-    else:
-        for synset in previousHyponyms: 
-            hyponyms = synset.hyponyms()
-            print(synset, hyponyms)
-            if type(numberHyp) == int: 
-                length = len(hyponyms)
-                if length > numberHyp: 
-                    result += hyponyms[:numberHyp]
-                    paths[(dist,synset)] = hyponyms[:numberHyp]
-                else: 
-                    result += hyponyms 
-                    paths[(dist,synset)] = hyponyms
-            else:
-                result += hyponyms
-                paths[(dist,synset)] = hyponyms
+            paths[(dist,synset)] = hyponyms
 
     previousHyponyms = result
 
@@ -62,7 +44,7 @@ def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):
 
 
 def generateHyponyms(sequenceHyp, word, graph):
-    previousHyponyms = checkOtherMeanings(word)
+    previousHyponyms = [wn.synsets(word)[0]]
     sequenceHyp = configureSequence(sequenceHyp)
     result = {}
     result[(0,0)] = previousHyponyms

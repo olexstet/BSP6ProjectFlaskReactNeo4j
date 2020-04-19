@@ -1,12 +1,32 @@
 from graphCreation.convertSynsetToString import *
 from nltk.corpus import wordnet as wn
 
+def generateLabel(labelSequence, separation):
+    result = ""
+    for i in range(len(labelSequence)):
+        element = labelSequence[i]
+        if i != len(labelSequence)-1:
+            result += element + separation
+        else:
+            result += element 
+    return result
+
+
 def createNode(S,graph):
     result = convertHypernymsToString([S])
+    defType = {"n": "Name", "v": "Verbe", "a": "Adjective", "r": "Adverbe"}
+
     w = result[0]
+
+    typeW = S.pos()
+    typeW = defType[typeW]
+
+    label = generateLabel([w,typeW], "::")
+
     definition = wn.synsets(w)[0].definition()
     definition = definition.replace('"','')
-    query = 'MERGE (t:Term {name: '+'"'+w+'", definition: "'+ definition + '" })'
+
+    query = 'MERGE (t:Term {name: '+'"'+w+'", definition: "'+ definition + '" , type: "'+typeW+'" , label: "'+label+'" })'
     graph.run(query)
 
 def createRealation(S1,S2,graph):

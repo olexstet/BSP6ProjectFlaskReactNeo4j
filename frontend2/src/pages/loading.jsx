@@ -7,11 +7,13 @@ import { Button } from "semantic-ui-react";
 
 class loading extends Component {
   state = {
+    username: this.props.location.data.username,
     myComponent: (
       <div>
         <img
           id="loading"
           src={loadImage}
+          alt="Loading"
           style={{
             display: "block",
             marginLeft: "auto",
@@ -28,33 +30,41 @@ class loading extends Component {
   };
 
   async componentDidMount() {
-    await axios.get("http://localhost:5000/").then((res) => {
-      const comp = (
-        <div>
-          <Button
-            style={{
-              backgroundColor: "blue",
-              fontSize: "20px",
-              paddingTop: "1%",
-              paddingBottom: "1%",
-              border: "solid 2px blue",
-              marginLeft: "42.5%",
-              width: "15%",
-              marginTop: "15em",
-              borderRadius: "20px 20px 20px 20px",
-            }}
-          >
-            <Link
-              to="/Survey"
-              style={{ color: "white", textDecoration: "none" }}
+    axios
+      .post("http://127.0.0.1:5000/", {
+        d: this.props.location.data,
+        typeRequest: "create_quiz",
+      })
+      .then((res) => {
+        const comp = (
+          <div>
+            <Button
+              style={{
+                backgroundColor: "blue",
+                fontSize: "20px",
+                paddingTop: "1%",
+                paddingBottom: "1%",
+                border: "solid 2px blue",
+                marginLeft: "42.5%",
+                width: "15%",
+                marginTop: "15em",
+                borderRadius: "20px 20px 20px 20px",
+              }}
             >
-              Ready!
-            </Link>
-          </Button>
-        </div>
-      );
-      this.setState({ myComponent: comp });
-    });
+              <Link
+                to={{
+                  pathname: "/Survey",
+                  data: this.state.username,
+                }}
+                style={{ color: "white", textDecoration: "none" }}
+              >
+                Ready!
+              </Link>
+            </Button>
+          </div>
+        );
+        this.setState({ myComponent: comp });
+      });
   }
 
   render() {

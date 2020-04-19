@@ -4,7 +4,7 @@ from nltk.corpus import wordnet as wn
 import random
 import requests
 import urllib.request
-from modules.Q2FetchData import * 
+from generators.Q2FetchData import * 
 
 def retrieveSubWords(word, levelDown, numberWords, graph):
     arrayWords = []
@@ -21,9 +21,10 @@ def retrieveSubWords(word, levelDown, numberWords, graph):
 
 
 def createQuestion3Words(word, levelDown, numberWordsTotal):
+    typeW = typeWord(word, connect())
     numberSubWords = random.randint(1,numberWordsTotal)
     wordsCategory = retrieveSubWords(word,levelDown,numberSubWords, connect())
-    randomWords = chooseRandomWords(fetchAllWords(),numberWordsTotal-len(wordsCategory))
+    randomWords = chooseRandomWords(fetchAllWords(),numberWordsTotal-len(wordsCategory), typeW)
     dictWords = {}
     dictWords[word] = wordsCategory
     dictWords['random'] = randomWords

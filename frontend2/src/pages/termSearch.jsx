@@ -1,33 +1,28 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "semantic-ui-react";
-import axios from "axios";
 
-export default class componentName extends Component {
+export default class termSearch extends Component {
   state = {
     currentTerm: "",
+    username: "",
   };
-
-  constructor(props) {
-    super(props);
-    this.onClickSearch = this.onClickSearch.bind(this);
-  }
 
   myChangeHandler = (event) => {
     this.setState({ currentTerm: event.target.value });
   };
 
-  async onClickSearch() {
-    console.log(this.state.currentTerm);
-
-    axios({
-      method: "post",
-      url: "http://127.0.0.1:5000/",
-      data: { d: this.state.currentTerm },
-    });
-  }
-
   render() {
+    if (this.state.username === "") {
+      if (sessionStorage.getItem("usernameState") === null) {
+        const data = this.props.location.data;
+        sessionStorage.setItem("usernameState", data);
+        this.setState({ username: sessionStorage.getItem("usernameState") });
+      } else {
+        this.setState({ username: sessionStorage.getItem("usernameState") });
+      }
+    }
+
     const searchStyle = {
       width: "85%",
       paddingTop: "2%",
@@ -63,12 +58,15 @@ export default class componentName extends Component {
             placeholder="Search for Term"
             style={searchStyle}
           ></input>
-          <Button style={buttonStyle} onClick={this.onClickSearch}>
+          <Button style={buttonStyle}>
             <Link
-              to="/Loading"
+              to={{
+                pathname: "/Loading",
+                data: this.state,
+              }}
               style={{ color: "white", textDecoration: "none" }}
             >
-              Search
+              Do Quiz
             </Link>
           </Button>
         </div>

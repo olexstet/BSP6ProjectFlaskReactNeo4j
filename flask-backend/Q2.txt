@@ -1,1 +1,1 @@
-{"fruit": ["plum", "medlar", "barbados_gooseberry", "cling", "hog_plum"], "random": ["Domingo", "armpit", "essence", "spheroid", "Seaborg", "gateway", "incommensurate"]}
+{"fruit": ["lanseh", "mamey", "quince", "jackfruit", "custard_apple"], "random": ["supernatant", "stint", "leak", "shrubbery", "extra", "genital", "Butterfield"]}

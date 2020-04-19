@@ -40,40 +40,20 @@ def checkOtherMeanings(word):
 
 def findHypernyms(word,dist,numberHyp,previousHypernyms,paths):
     result = []
-
-    if checkOtherMeanings(word) == previousHypernyms:
-        hypernyms = []
-        for synset in previousHypernyms:
-            hypernyms += synset.hypernyms()
-        print(previousHypernyms[0], hypernyms)
+    for synset in previousHypernyms: 
+        hypernyms = synset.hypernyms()
+        print(synset, hypernyms)
         if type(numberHyp) == int: 
             length = len(hypernyms)
             if length > numberHyp: 
                 result += hypernyms[:numberHyp]
-                paths[(dist,previousHypernyms[0])] = hypernyms[:numberHyp]
+                paths[(dist,synset)] = hypernyms[:numberHyp]
             else: 
                 result += hypernyms 
-                paths[(dist,previousHypernyms[0])] = hypernyms
+                paths[(dist,synset)] = hypernyms
         else:
             result += hypernyms
-            paths[(dist,previousHypernyms[0])] = hypernyms
-
-
-    else:
-        for synset in previousHypernyms: 
-            hypernyms = synset.hypernyms()
-            print(synset, hypernyms)
-            if type(numberHyp) == int: 
-                length = len(hypernyms)
-                if length > numberHyp: 
-                    result += hypernyms[:numberHyp]
-                    paths[(dist,synset)] = hypernyms[:numberHyp]
-                else: 
-                    result += hypernyms 
-                    paths[(dist,synset)] = hypernyms
-            else:
-                result += hypernyms
-                paths[(dist,synset)] = hypernyms
+            paths[(dist,synset)] = hypernyms
 
     previousHypernyms = result
 
@@ -82,7 +62,7 @@ def findHypernyms(word,dist,numberHyp,previousHypernyms,paths):
 
 
 def generateHypernyms(sequenceHyp, word, graph):
-    previousHypernyms = checkOtherMeanings(word)
+    previousHypernyms = [wn.synsets(word)[0]]
     sequenceHyp = configureSequence(sequenceHyp)
     result = {}
     result[(0,0)] = previousHypernyms

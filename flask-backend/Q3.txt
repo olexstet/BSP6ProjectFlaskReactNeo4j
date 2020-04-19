@@ -1,1 +1,1 @@
-{"apple": ["delicious", "cortland", "newtown_wonder", "bramley's_seedling", "lane's_prince_albert", "baldwin"], "random": ["Fuchsia", "Chimique", "remit", "jelly", "roebuck", "arrack"]}
+{"apple": ["lane's_prince_albert", "delicious", "baldwin", "cortland"], "random": ["lapidary", "passe", "advocacy", "Wesley", "Blenheim", "equilibria", "nationwide", "metalloid"]}
