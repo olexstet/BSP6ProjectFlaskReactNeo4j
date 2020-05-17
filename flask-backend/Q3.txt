@@ -1,1 +1,0 @@
-{"apple": ["lane's_prince_albert", "delicious", "baldwin", "cortland"], "random": ["lapidary", "passe", "advocacy", "Wesley", "Blenheim", "equilibria", "nationwide", "metalloid"]}

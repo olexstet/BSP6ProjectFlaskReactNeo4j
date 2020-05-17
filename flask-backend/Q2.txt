@@ -1,1 +1,0 @@
-{"fruit": ["lanseh", "mamey", "quince", "jackfruit", "custard_apple"], "random": ["supernatant", "stint", "leak", "shrubbery", "extra", "genital", "Butterfield"]}
