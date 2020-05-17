@@ -19,18 +19,18 @@ export class question1 extends Component {
 
         console.log(data);
 
+        /* NOT NEEDED, TO BE ERAISE
         function shuffle(array) {
           for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
           }
           return array;
-        }
+        }*/
 
         var definitions = [];
-        Object.entries(data).forEach(([key, value]) => {
+        Object.entries(data).forEach(([key,value]) => {
           definitions.push(value);
-          shuffle(definitions);
         });
         this.setState({ word: "apple", definitions });
       });

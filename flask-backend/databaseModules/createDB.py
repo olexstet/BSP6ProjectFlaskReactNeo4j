@@ -1,4 +1,5 @@
 def createDataBase(cursor):
+    cursor.execute("DROP TABLE IF EXISTS Quiz;")
     cursor.execute("DROP TABLE IF EXISTS QuizQ1;")
     cursor.execute("DROP TABLE IF EXISTS QuizQ2;")
     cursor.execute("DROP TABLE IF EXISTS QuizQ3;")
@@ -28,6 +29,15 @@ def createDataBase(cursor):
     cursor.execute(create_table_query)
 
     create_table_query = ''' CREATE TABLE QuizQ3(
+                    Username VARCHAR(255) REFERENCES UserData(Username),
+                    Type VARCHAR(255),
+                    Word VARCHAR(255),
+                    PRIMARY KEY(Username, Type, Word)
+                    );'''
+
+    cursor.execute(create_table_query)
+    create_table_query = ''' CREATE TABLE Quiz(
+                    QuestionNumber Integer,
                     Username VARCHAR(255) REFERENCES UserData(Username),
                     Type VARCHAR(255),
                     Word VARCHAR(255),

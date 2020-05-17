@@ -42,7 +42,7 @@ def findHypernyms(word,dist,numberHyp,previousHypernyms,paths):
     result = []
     for synset in previousHypernyms: 
         hypernyms = synset.hypernyms()
-        print(synset, hypernyms)
+        #print(synset, hypernyms)
         if type(numberHyp) == int: 
             length = len(hypernyms)
             if length > numberHyp: 
@@ -87,19 +87,19 @@ def generateHypernyms(sequenceHyp, word, graph):
     _,paths = findHypernyms(word,dist+1,numberHyp,previousHypernyms,paths)
 
     res = formPaths(paths,wn.synsets(word)[0])
-    print(res)
+    #print(res)
     
     res = removeNonExistedNodes(res, graph)
-    print("\nRelations hypernyms")
+    #print("\nRelations hypernyms")
     createdRel = []
     for r in res: 
         for i in range(1,len(r)):
             if [r[i],r[i-1]] not in createdRel:
-                createRealation(r[i-1],r[i],graph)
+                createRelation(r[i-1],r[i],graph)
                 createdRel.append([r[i],r[i-1]])
-                print(r[i-1],r[i])
+                #print(r[i-1],r[i])
         
-    print("--------------------------------------------------------------")
+    #print("--------------------------------------------------------------")
     return result
 
 #generateHypernyms([[1,5],[5,3]], "apple", connect())

@@ -11,6 +11,14 @@ def generateLabel(labelSequence, separation):
             result += element 
     return result
 
+def addToFile(string):
+    f = open("graphCreation/cypherScript.txt", "r")
+    saveD = f.read()
+    f.close()
+    f = open("graphCreation/cypherScript.txt", "w")
+    f.write(saveD)
+    f.write(string+"\n")
+    f.close()
 
 def createNode(S,graph):
     result = convertHypernymsToString([S])
@@ -26,13 +34,29 @@ def createNode(S,graph):
     definition = wn.synsets(w)[0].definition()
     definition = definition.replace('"','')
 
-    query = 'MERGE (t:Term {name: '+'"'+w+'", definition: "'+ definition + '" , type: "'+typeW+'" , label: "'+label+'" })'
-    graph.run(query)
+    query = "Match (t:Term) return t"
 
-def createRealation(S1,S2,graph):
+    countNodes = 0
+    nodes = graph.run(query)
+    names =[]
+    for node in nodes:
+        names.append(node[0]['name'])
+    #print(names)
+
+    if w in names:
+        countNodes += 1
+        
+    if countNodes == 0:
+        query = 'MERGE (t:Term {name: '+'"'+w+'", definition: "'+ definition + '" , type: "'+typeW+'" , label: "'+label+'" })'
+        string = str('MERGE (t:Term {name: '+'"'+w+'", definition: "'+ definition + '" , type: "'+typeW+'" , label: "'+label+'" })')
+        addToFile(string)
+        graph.run(query)
+
+def createRelation(S1,S2,graph):
     result = convertHypernymsToString([S1,S2])
     w1 = result[0]
     w2 = result[1]
+    #print(w1,w2)
 
     existsW1 = False 
     existsW2 = False 
@@ -58,8 +82,11 @@ def createRealation(S1,S2,graph):
             countNodes += 1
                             
         if countNodes == 0:
-            query = '''MATCH (t1:Term),(t2:Term) WHERE t1.name = "''' + w1 + '''" and t2.name = "''' + w2 +'''"
-                        MERGE (t1)-[:ISA]->(t2)''' # add property of order 
-            graph.run(query)            
+            query = '''MATCH (t1:Term),(t2:Term) WHERE t1.name = "''' + w1 + '''" and t2.name = "''' + w2 +'''" 
+            MERGE (t1)-[:ISA]->(t2)''' # add property of order 
+            graph.run(query)   
+            string = '''MATCH (t1:Term),(t2:Term) WHERE t1.name = "''' + w1 + '''" and t2.name = "''' + w2 +'''" 
+            \n MERGE (t1)-[:ISA]->(t2)'''
+            addToFile(string)         
         return True
     return False  

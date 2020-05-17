@@ -1,0 +1,192 @@
+MERGE (apple:Term {name: "apple", definition: "fruit with red or yellow or green skin and sweet to tart crisp whitish flesh" , type: "Name" , label: "apple::Name" })
+MERGE (edible_fruit:Term {name: "edible_fruit", definition: "edible reproductive body of a seed plant especially one having sweet flesh" , type: "Name" , label: "edible_fruit::Name" })
+MERGE (pome:Term {name: "pome", definition: "a fleshy fruit (apple or pear or related fruits) having seed chambers and an outer fleshy part" , type: "Name" , label: "pome::Name" })
+MERGE (fruit:Term {name: "fruit", definition: "the ripened reproductive body of a seed plant" , type: "Name" , label: "fruit::Name" })
+MERGE (produce:Term {name: "produce", definition: "fresh fruits and vegetable grown for the market" , type: "Name" , label: "produce::Name" })
+
+MERGE (cooking_apple:Term {name: "cooking_apple", definition: "an apple used primarily in cooking for pies and applesauce etc" , type: "Name" , label: "cooking_apple::Name" })
+MERGE (crab_apple:Term {name: "crab_apple", definition: "any of numerous varieties of crab apples cultivated for their small acidic (usually bright red) fruit used for preserves or as ornamentals for their blossoms" , type: "Name" , label: "crab_apple::Name" })
+MERGE (eating_apple:Term {name: "eating_apple", definition: "an apple used primarily for eating raw without cooking" , type: "Name" , label: "eating_apple::Name" })
+MERGE (bramleys_seedling:Term {name: "bramley's_seedling", definition: "very large cooking apple" , type: "Name" , label: "bramley's_seedling::Name" })
+MERGE (lanes_prince_albert:Term {name: "lane's_prince_albert", definition: "apple used primarily in cooking" , type: "Name" , label: "lane's_prince_albert::Name" })
+MERGE (newtown_wonder:Term {name: "newtown_wonder", definition: "apple used primarily in cooking" , type: "Name" , label: "newtown_wonder::Name" })
+MERGE (baldwin:Term {name: "baldwin", definition: "United States author who was an outspoken critic of racism (1924-1987)" , type: "Name" , label: "baldwin::Name" })
+MERGE (cortland:Term {name: "cortland", definition: "large apple with a red skin" , type: "Name" , label: "cortland::Name" })
+MERGE (delicious:Term {name: "delicious", definition: "variety of sweet eating apples" , type: "Name" , label: "delicious::Name" })
+
+MERGE (olive:Term {name: "olive", definition: "small ovoid fruit of the European olive tree; important food and source of oil" , type: "Name" , label: "olive::Name" })
+MERGE (gourd:Term {name: "gourd", definition: "bottle made from the dried shell of a bottle gourd" , type: "Name" , label: "gourd::Name" })
+MERGE (cubeb:Term {name: "cubeb", definition: "spicy fruit of the cubeb vine; when dried and crushed is used medicinally or in perfumery and sometimes smoked in cigarettes" , type: "Name" , label: "cubeb::Name" })
+MERGE (granny_smith:Term {name: "granny_smith", definition: "spicy fruit of the cubeb vine; when dried and crushed is used medicinally or in perfumery and sometimes smoked in cigarettes" , type: "Name" , label: "granny_smith::Name" })
+MERGE (northern_spy:Term {name: "northern_spy", definition: "large late-ripening apple with skin striped with yellow and red" , type: "Name" , label: "northern_spy::Name" })
+MERGE (winesap:Term {name: "winesap", definition: "crisp apple with dark red skin" , type: "Name" , label: "winesap::Name" })
+MERGE (accessory_fruit:Term {name: "accessory_fruit", definition: "fruit containing much fleshy tissue besides that of the ripened ovary; as apple or strawberry" , type: "Name" , label: "accessory_fruit::Name" })
+MERGE (empire:Term {name: "empire", definition: "the domain ruled by an emperor or empress; the region over which imperial dominion is exercised" , type: "Name" , label: "empire::Name" })
+MERGE (rome_beauty:Term {name: "rome_beauty", definition: "large red apple used primarily for baking" , type: "Name" , label: "rome_beauty::Name" })                                       
+MERGE (plum:Term {name: "plum", definition: "any of several trees producing edible oval fruit having a smooth skin and a single hard stone" , type: "Name" , label: "plum::Name" })                                       
+MERGE (melon:Term {name: "melon", definition: "any of numerous fruits of the gourd family having a hard rind and sweet juicy flesh" , type: "Name" , label: "melon::Name" })                                       
+
+MERGE (apple)-[:ISA]->(edible_fruit)
+MERGE (edible_fruit)-[:ISA]->(fruit)
+MERGE (apple)-[:ISA]->(pome)      
+MERGE (pome)-[:ISA]->(fruit)
+MERGE (edible_fruit)-[:ISA]->(produce)
+
+MERGE (cooking_apple)-[:ISA]->(apple)
+MERGE (bramleys_seedling)-[:ISA]->(cooking_apple)          
+MERGE (crab_apple)-[:ISA]->(apple)
+MERGE (eating_apple)-[:ISA]->(apple)
+MERGE (baldwin)-[:ISA]->(eating_apple)
+MERGE (lanes_prince_albert)-[:ISA]->(cooking_apple)
+MERGE (newtown_wonder)-[:ISA]->(cooking_apple)
+MERGE (cortland)-[:ISA]->(eating_apple)
+MERGE (delicious)-[:ISA]->(eating_apple)
+
+Merge (apple)-[:SAME]->(melon)
+Merge (melon)-[:SAME]->(apple)
+Merge (apple)-[:SAME]->(plum)
+Merge (plum)-[:SAME]->(apple)
+Merge (pome)-[:SAME]->(gourd)
+Merge (gourd)-[:SAME]->(pome)
+Merge (pome)-[:SAME]->(cubeb)
+Merge (cubeb)-[:SAME]->(pome)
+Merge (edible_fruit)-[:SAME]->(olive)
+Merge (olive)-[:SAME]->(edible_fruit)
+Merge (edible_fruit)-[:SAME]->(accessory_fruit)
+Merge (accessory_fruit)-[:SAME]->(edible_fruit)
+Merge (delicious)-[:SAME]->(empire)
+Merge (empire)-[:SAME]->(delicious)
+Merge (delicious)-[:SAME]->(baldwin)
+Merge (baldwin)-[:SAME]->(delicious)
+Merge (winesap)-[:SAME]->(baldwin)
+Merge (baldwin)-[:SAME]->(winesap)
+Merge (cortland)-[:SAME]->(baldwin)
+Merge (baldwin)-[:SAME]->(cortland)
+Merge (cortland)-[:SAME]->(northern_spy)
+Merge (northern_spy)-[:SAME]->(cortland)
+Merge (cortland)-[:SAME]->(granny_smith)
+Merge (granny_smith)-[:SAME]->(cortland)
+Merge (bramleys_seedling)-[:SAME]->(lanes_prince_albert)
+Merge (lanes_prince_albert)-[:SAME]->(bramleys_seedling)
+Merge (newtown_wonder)-[:SAME]->(lanes_prince_albert)
+Merge (lanes_prince_albert)-[:SAME]->(newtown_wonder)
+Merge (bramleys_seedling)-[:SAME]->(newtown_wonder)
+Merge (newtown_wonder)-[:SAME]->(bramleys_seedling)
+Merge (rome_beauty)-[:SAME]->(newtown_wonder)
+Merge (newtown_wonder)-[:SAME]->(rome_beauty)
+
+
+----------------------------------------------------------------------------------------------------------
+DROP TABLE IF EXISTS Relation;
+DROP TABLE IF EXISTS Term;
+
+Create Table Term(
+	name Varchar(255) Primary Key,
+	definition Text,
+	label Varchar(255),
+	typeWord Varchar(255)
+);
+
+Create Table Relation(
+	wordFrom Varchar(255) REFERENCES Term(name),
+	TypeRelation Varchar(255),
+	wordTo Varchar(255) REFERENCES Term(name),
+	PRIMARY KEY (TypeRelation, wordFrom, wordTo)
+);
+
+DROP TABLE IF EXISTS Relation;
+DROP TABLE IF EXISTS Node;
+
+Create Table Node(
+	idNode Integer Primary Key,
+	type Varchar(255),
+	definition Text,
+	label Varchar(255),
+	name Varchar(255),
+	typeWord Varchar(255)
+);
+
+Create Table Relation(
+	idFrom Integer REFERENCES Node(idNode),
+	idTo Integer REFERENCES Node(idNode),
+	TypeRelation Varchar(255),
+	PRIMARY KEY (TypeRelation, idFrom, idTo)
+);
+
+
+INSERT INTO Term VALUES('apple','fruit with red or yellow or green skin and sweet to tart crisp whitish flesh', 'apple::Name','Name');
+INSERT INTO Term VALUES('edible_fruit','edible reproductive body of a seed plant especially one having sweet flesh','edible_fruit::Name','Name');
+INSERT INTO Term VALUES('pome','a fleshy fruit (apple or pear or related fruits) having seed chambers and an outer fleshy part','pome::Name','Name');
+INSERT INTO Term VALUES('fruit','the ripened reproductive body of a seed plant','fruit::Name','Name');
+INSERT INTO Term VALUES('produce','fresh fruits and vegetable grown for the market','produce::Name','Name');
+
+INSERT INTO Term VALUES('cooking_apple','an apple used primarily in cooking for pies and applesauce etc','cooking_apple::Name','Name');
+INSERT INTO Term VALUES('crab_apple','any of numerous varieties of crab apples cultivated for their small acidic (usually bright red) fruit used for preserves or as ornamentals for their blossoms','crab_apple::Name','Name');
+INSERT INTO Term VALUES('eating_apple','an apple used primarily for eating raw without cooking','eating_apple::Name','Name');
+INSERT INTO Term VALUES('bramley''s_seedling','very large cooking apple','bramley''s_seedling::Name','Name');
+INSERT INTO Term VALUES('lane''s_prince_albert','apple used primarily in cooking','lane''s_prince_albert::Name','Name');
+INSERT INTO Term VALUES('newtown_wonder','apple used primarily in cooking','newtown_wonder::Name','Name');
+INSERT INTO Term VALUES('baldwin','United States author who was an outspoken critic of racism (1924-1987)','baldwin::Name','Name');
+INSERT INTO Term VALUES('cortland','large apple with a red skin','cortland::Name','Name');
+INSERT INTO Term VALUES('delicious','variety of sweet eating apples','delicious::Name','Name');
+
+INSERT INTO Term VALUES('olive','small ovoid fruit of the European olive tree; important food and source of oil','olive::Name','Name');
+INSERT INTO Term VALUES('gourd','bottle made from the dried shell of a bottle gourd','gourd::Name','Name');
+INSERT INTO Term VALUES('cubeb','spicy fruit of the cubeb vine; when dried and crushed is used medicinally or in perfumery and sometimes smoked in cigarettes','cubeb::Name','Name');
+INSERT INTO Term VALUES('granny_smith','spicy fruit of the cubeb vine; when dried and crushed is used medicinally or in perfumery and sometimes smoked in cigarettes','granny_smith::Name','Name');
+INSERT INTO Term VALUES('northern_spy','large late-ripening apple with skin striped with yellow and red','northern_spy::Name','Name');
+INSERT INTO Term VALUES('winesap','crisp apple with dark red skin','winesap::Name','Name');
+INSERT INTO Term VALUES('accessory_fruit','fruit containing much fleshy tissue besides that of the ripened ovary; as apple or strawberry','accessory_fruit::Name','Name');
+INSERT INTO Term VALUES('empire','the domain ruled by an emperor or empress; the region over which imperial dominion is exercised','empire::Name','Name');
+INSERT INTO Term VALUES('rome_beauty','large red apple used primarily for baking','rome_beauty::Name','Name');
+INSERT INTO Term VALUES('plum','any of several trees producing edible oval fruit having a smooth skin and a single hard stone','plum::Name','Name');
+INSERT INTO Term VALUES('melon','any of numerous fruits of the gourd family having a hard rind and sweet juicy flesh','melon::Name','Name');
+
+INSERT INTO Relation VALUES('apple','ISA','edible_fruit');
+INSERT INTO Relation VALUES('edible_fruit','ISA','fruit');
+INSERT INTO Relation VALUES('apple','ISA','pome');
+INSERT INTO Relation VALUES('pome','ISA','fruit');
+INSERT INTO Relation VALUES('edible_fruit','ISA','produce');
+
+INSERT INTO Relation VALUES('cooking_apple','ISA','produce');
+INSERT INTO Relation VALUES('bramley''s_seedling','ISA','cooking_apple');
+INSERT INTO Relation VALUES('crab_apple','ISA','apple');
+INSERT INTO Relation VALUES('eating_apple','ISA','apple');
+INSERT INTO Relation VALUES('baldwin','ISA','eating_apple');
+INSERT INTO Relation VALUES('lane''s_prince_albert','ISA','cooking_apple');
+INSERT INTO Relation VALUES('newtown_wonder','ISA','cooking_apple');
+INSERT INTO Relation VALUES('cortland','ISA','eating_apple');
+INSERT INTO Relation VALUES('delicious','ISA','eating_apple');
+
+INSERT INTO Relation VALUES('apple','SAME','melon');
+INSERT INTO Relation VALUES('melon','SAME','apple');
+INSERT INTO Relation VALUES('apple','SAME','plum');
+INSERT INTO Relation VALUES('plum','SAME','apple');
+INSERT INTO Relation VALUES('pome','SAME','gourd');
+INSERT INTO Relation VALUES('gourd','SAME','pome');
+INSERT INTO Relation VALUES('pome','SAME','cubeb');
+INSERT INTO Relation VALUES('cubeb','SAME','pome');
+INSERT INTO Relation VALUES('edible_fruit','SAME','olive');
+INSERT INTO Relation VALUES('olive','SAME','edible_fruit');
+INSERT INTO Relation VALUES('edible_fruit','SAME','accessory_fruit');
+INSERT INTO Relation VALUES('accessory_fruit','SAME','edible_fruit');
+INSERT INTO Relation VALUES('delicious','SAME','empire');
+INSERT INTO Relation VALUES('empire','SAME','delicious');
+INSERT INTO Relation VALUES('delicious','SAME','baldwin');
+INSERT INTO Relation VALUES('baldwin','SAME','delicious');
+INSERT INTO Relation VALUES('winesap','SAME','baldwin');
+INSERT INTO Relation VALUES('baldwin','SAME','winesap');
+INSERT INTO Relation VALUES('cortland','SAME','baldwin');
+INSERT INTO Relation VALUES('baldwin','SAME','cortland');
+INSERT INTO Relation VALUES('cortland','SAME','northern_spy');
+INSERT INTO Relation VALUES('northern_spy','SAME','cortland');
+INSERT INTO Relation VALUES('cortland','SAME','granny_smith');
+INSERT INTO Relation VALUES('granny_smith','SAME','cortland');
+INSERT INTO Relation VALUES('bramley''s_seedling','SAME','lane''s_prince_albert');
+INSERT INTO Relation VALUES('lane''s_prince_albert','SAME','bramley''s_seedling');
+INSERT INTO Relation VALUES('newtown_wonder','SAME','lane''s_prince_albert');
+INSERT INTO Relation VALUES('lane''s_prince_albert','SAME','newtown_wonder');
+INSERT INTO Relation VALUES('bramley''s_seedling','SAME','newtown_wonder');
+INSERT INTO Relation VALUES('newtown_wonder','SAME','bramley''s_seedling');
+INSERT INTO Relation VALUES('rome_beauty','SAME','newtown_wonder');
+INSERT INTO Relation VALUES('newtown_wonder','SAME','rome_beauty');

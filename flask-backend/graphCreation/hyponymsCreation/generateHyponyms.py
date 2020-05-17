@@ -24,7 +24,7 @@ def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):
 
     for synset in previousHyponyms: 
         hyponyms = synset.hyponyms()
-        print(synset, hyponyms)
+        #print(synset, hyponyms)
         if type(numberHyp) == int: 
             length = len(hyponyms)
             if length > numberHyp: 
@@ -89,15 +89,15 @@ def generateHyponyms(sequenceHyp, word, graph):
         print(r)
     """
 
-    print("\nRelations hyponyms")
+    #print("\nRelations hyponyms")
     res = removeNonExistedNodes(res, graph)
     createdRel = []
     for r in res: 
         for i in range(1,len(r)):
             if [r[i],r[i-1]] not in createdRel:
-                createRealation(r[i],r[i-1],graph)
+                createRelation(r[i],r[i-1],graph)
                 createdRel.append([r[i],r[i-1]])
-                print(r[i-1],r[i])
+                #print(r[i-1],r[i])
 
     return result
 
