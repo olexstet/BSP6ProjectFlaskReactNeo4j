@@ -34,8 +34,8 @@ def createISARelation(wordsSame, hypernyms, graph):
             for isaWord in isaWords:
                 hypernymsWord = sameWord.hypernyms()
                 if isaWord in hypernymsWord:
-                    query = """ MATCH (t1:Term {name:'""" + convertHypernymsToString([sameWord])[0] + """'}), (t2:Term {name:'"""+ convertHypernymsToString([isaWord])[0]+"""'}) 
-                            MERGE (t1)-[:ISA]->(t2)"""
+                    query = ''' MATCH (t1:Term {name:"''' + convertHypernymsToString([sameWord])[0] + '''"}), (t2:Term {name:"'''+ convertHypernymsToString([isaWord])[0]+'''"}) 
+                            MERGE (t1)-[:ISA]->(t2)'''
                     graph.run(query)
                     print(convertHypernymsToString([sameWord])[0] , convertHypernymsToString([isaWord])[0])
 
