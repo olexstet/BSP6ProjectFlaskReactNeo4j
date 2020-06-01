@@ -1,5 +1,5 @@
 import sys 
-sys.path.insert(0, '..\env\Lib\site-packages') # if psycopg2 doesn't work 
+sys.path.insert(0, '..\..\env\Lib\site-packages') # if psycopg2 doesn't work 
 import psycopg2
     
 def createDataBase(cursor):
