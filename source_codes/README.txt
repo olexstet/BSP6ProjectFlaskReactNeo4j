@@ -1,4 +1,4 @@
-This folder contains all the codes wrote for the Bachelor Semester Project S6 & S4.
+This folder contains all the codes written for the Bachelor Semester Project S6 & S4.
 You can find three folders (env, flask-backend and frontend).
 
 Summary of folders: 
