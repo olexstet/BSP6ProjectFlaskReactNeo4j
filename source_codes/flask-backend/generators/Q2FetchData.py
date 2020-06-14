@@ -68,19 +68,13 @@ def retrieveWordsCategory(word, levelUp, levelDown, numberWords, graph):
     index = random.randint(0,len(arrayNames)-1)
     category = arrayNames[index]
 
-    arrayWords = []
+    words = []
 
-    query = ''' Match (t1:Term)<-[:ISA*'''+str(levelDown)+''']-(t2:Term) Where t1.name ="'''+category+'''" Return t2'''
+    query = """Match (t1:Term)-[:ISA*1.."""+str(levelDown)+"""]->(t2:Term {name: '"""+ category + """'}) return t1"""
     nodes = graph.run(query)
 
     for node in nodes:
-        arrayWords.append(node[0]['name'])
-
-    words = []
-    for w in arrayWords: 
-        query = ''' Match (t1:Term)-[:SAME]->(t2:Term) Where t1.name ="'''+ w +'''" Return t2'''
-        nodes = graph.run(query)
-        for node in nodes: 
+        if node[0]['name'] != word:
             words.append(node[0]['name'])
 
     words = list(set(words))
