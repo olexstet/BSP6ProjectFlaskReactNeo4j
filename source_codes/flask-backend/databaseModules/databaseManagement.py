@@ -50,7 +50,7 @@ def createDataBase(cursor):
 def getDBCursor():
     hostname = '127.0.0.1'
     username = 'postgres'
-    passwordDB = 'Sasha!stet!1998' # please change/eneter the password 
+    passwordDB = '****' # please change/eneter the password 
     databaseName = 'webApp'
     connection = psycopg2.connect("dbname = "+databaseName+" user = "+username+" password = "+passwordDB+" host = localhost")
     cursor = connection.cursor()
