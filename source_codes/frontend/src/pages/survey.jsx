@@ -7,7 +7,7 @@ import SubmitButton from "../components/submitButton";
 import { Redirect } from "react-router-dom";
 
 export default class componentName extends Component {
-  componentDidMount() {
+  componentDidMount() { /* when click on button come back go to Home in order to avoid loading page */
     window.addEventListener("popstate", (event) => {
       return <Redirect to="/Home" />;
     });
@@ -18,13 +18,15 @@ export default class componentName extends Component {
       backgroundColor: "rgb(30, 144, 255)",
     };
 
+    /* Questions components*/ 
     return (
       <div className="App">
         <div style={barStyle}></div>
         <Title />
-        <Question1 username={sessionStorage.getItem("usernameState")} />
-        <Question2 username={sessionStorage.getItem("usernameState")} />
-        <Question3 username={sessionStorage.getItem("usernameState")} />
+         
+        <Question1 username={sessionStorage.getItem("usernameState")} term = {sessionStorage.getItem("term")} /> 
+        <Question2 username={sessionStorage.getItem("usernameState")} term = {sessionStorage.getItem("term")} />
+        <Question3 username={sessionStorage.getItem("usernameState")} term = {sessionStorage.getItem("term")} />
         <SubmitButton />
         <div></div>
       </div>
