@@ -8,7 +8,7 @@ import { Button } from "semantic-ui-react";
 class loading extends Component {
   state = {
     username: this.props.location.data.username,
-    myComponent: (
+    myComponent: ( /* Loadin gimage for rotation */
       <div>
         <img
           id="loading"
@@ -26,19 +26,19 @@ class loading extends Component {
         ></img>
         <h4 style={{ textAlign: "center" }}>Waiting for quiz generation :)</h4>
       </div>
-    ),
+    )
   };
 
   async componentDidMount() {
     axios
-      .post("http://127.0.0.1:5000/", {
+      .post("http://127.0.0.1:5000/", { /* Request for quiz creation */
         d: this.props.location.data,
         typeRequest: "create_quiz",
       })
-      .then((res) => {
+      .then((res) => { /* When creation finished create button for next page redirect */
         const comp = (
           <div>
-            <Button
+            <Button 
               style={{
                 backgroundColor: "blue",
                 fontSize: "20px",
@@ -53,8 +53,7 @@ class loading extends Component {
             >
               <Link
                 to={{
-                  pathname: "/Survey",
-                  data: this.state.username,
+                  pathname: "/Survey" /* Link to next page */
                 }}
                 style={{ color: "white", textDecoration: "none" }}
               >
