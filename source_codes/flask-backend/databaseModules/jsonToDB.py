@@ -1,54 +1,54 @@
 import random 
 
-def apostropheWord(word):
+def apostropheWord(word): # adapt a word for stroing to database 
     res = ""
     for char in word:
         if char == "'":
-            res += "''"
+            res += "\\"+"'" # adaptation in case of aposthrophe 
         else:
             res += char
     return res 
 
-def checkDefinition(definition):
+def checkDefinition(definition): # check if in definition an aposthrophe is present and adapt to the needed format 
     res = ""
     definition = definition.split(" ")
     for word in definition: 
         if "'" in word: 
-            w = apostropheWord(word)
+            w = apostropheWord(word) # adaptation 
         else:
             w = word
-        res += word+" "
+        res += w+" "
     return res 
 
-def jsonToDBQ1(id_quiz, id_question, word, data, points, cursor, connection):
+def jsonToDBQ1(id_quiz, id_question, word, data, points, cursor, connection): # store the data for question 1 
     dataShuffled = [] 
     index = 1
     for w in data:
-        definition = data[w]
-        dataShuffled.append((index, definition))
+        definition = data[w] # fetch definitions 
+        dataShuffled.append((index, definition)) # store the definition to shuflle 
         index += 1
 
-    random.shuffle(dataShuffled)
+    random.shuffle(dataShuffled) # shuffle definitons 
 
-    questionData = "{"
-    for i in range(len(dataShuffled)):
+    questionData = "{" 
+    for i in range(len(dataShuffled)): # put together the data as a string in brackets for adapting to the database format  
         _,definition = dataShuffled[i]
         if i != len(dataShuffled)-1:
             questionData += checkDefinition(definition)+","
         else:
             questionData += checkDefinition(definition)+"}"
 
-    correctPos = "{"
-    print(dataShuffled)
+    correctPos = "{" # pos of correct definition 
     for i in range(len(dataShuffled)):
-        pos,_ = dataShuffled[i]
-        if pos == 1: 
+        pos,_ = dataShuffled[i] # fetch position 
+        if pos == 1: # if it is the first position then the definition is correct. Initally the right definition was at first position. 
             correctPos += str(i)+"}"
 
-    query = " INSERT INTO Question VALUES(" + str(id_quiz) + "," + str(id_question)+"," +"'"+ str(word)+"','" + questionData + "','"+correctPos+"',"+str(points)+")"
+   
+    query = " INSERT INTO Question VALUES(" + str(id_quiz) + "," + str(id_question)+"," +"'"+ str(word)+"','" + questionData + "','"+correctPos+"',"+str(points)+")" # store into database 
     cursor.execute(query)
     connection.commit()
-    print("done")
+    print("Q1 done")
 
 
 def jsonToDBQ2(id_quiz, id_question,data, points, cursor, connection):
@@ -57,43 +57,44 @@ def jsonToDBQ2(id_quiz, id_question,data, points, cursor, connection):
     count = 0
     for w in data:
         if count == 0:
-            word = w
+            word = w # fetch the category 
             count = 1
         array += data[w]
     
-    print(array)
-    numberCorrect = len(data[word])-1
+    numberCorrect = len(data[word])-1 # how much words are correct 
 
     for i in range(len(array)):
-        dataShuffled.append((i,array[i]))
+        dataShuffled.append((i,array[i])) # append the words to array to shuffle 
 
-    random.shuffle(dataShuffled)
+    random.shuffle(dataShuffled) # shuffle array 
 
     questionData = "{"
     for i in range(len(dataShuffled)):
         _,w = dataShuffled[i]
-        w = apostropheWord(w)
+        w = apostropheWord(w) # check if word has aposthrophe 
         if i != len(dataShuffled)-1:
             questionData += w+","
         else:
             questionData += w+"}"
 
     correctPos = "{"
-    print(questionData)
+
+    # find the position of words whoch are correct 
     for i in range(len(dataShuffled)):
         pos,_ = dataShuffled[i]
         if pos <= numberCorrect: 
             if i != len(dataShuffled)-1:
                 correctPos += str(i)+","
-    correctPos = correctPos[:len(correctPos)-1] 
+    if len(correctPos) > 1:
+        correctPos = correctPos[:len(correctPos)-1] 
     correctPos += "}"
 
     query = " INSERT INTO Question VALUES(" + str(id_quiz) + "," + str(id_question)+"," +"'"+ str(word)+"','" + questionData + "','"+correctPos+"',"+str(points)+")"
     cursor.execute(query)
     connection.commit()
-    print("done")
+    print("Q2 done")
 
-def jsonToDBQ3(id_quiz, id_question,data, points, cursor, connection):
+def jsonToDBQ3(id_quiz, id_question,data, points, cursor, connection): # same as previous function 
     dataShuffled = [] 
     array = []
     count = 0
@@ -103,7 +104,6 @@ def jsonToDBQ3(id_quiz, id_question,data, points, cursor, connection):
             count = 1
         array += data[w]
     
-    print(array)
     numberCorrect = len(data[word])-1
 
     for i in range(len(array)):
@@ -121,16 +121,19 @@ def jsonToDBQ3(id_quiz, id_question,data, points, cursor, connection):
             questionData += w+"}"
 
     correctPos = "{"
-    print(questionData)
     for i in range(len(dataShuffled)):
         pos,_ = dataShuffled[i]
         if pos <= numberCorrect: 
             if i != len(dataShuffled)-1:
                 correctPos += str(i)+","
-    correctPos = correctPos[:len(correctPos)-1] 
+            else:
+                correctPos += str(i)
+    if len(correctPos) > 1:
+        correctPos = correctPos[:len(correctPos)-1] 
     correctPos += "}"
 
     query = " INSERT INTO Question VALUES(" + str(id_quiz) + "," + str(id_question)+"," +"'"+ str(word)+"','" + questionData + "','"+correctPos+"',"+str(points)+")"
     cursor.execute(query)
     connection.commit()
-    print("done")
+    print("Q3 done")
+
