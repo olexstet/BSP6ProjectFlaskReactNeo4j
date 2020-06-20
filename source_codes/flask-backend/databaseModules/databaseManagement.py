@@ -2,7 +2,7 @@ import sys
 sys.path.insert(0, '..\..\env\Lib\site-packages') # if psycopg2 doesn't work 
 import psycopg2
     
-def createDataBase(cursor):
+def createDataBase(cursor): # structure of database 
     cursor.execute("DROP TABLE IF EXISTS Answer;")
     cursor.execute("DROP TABLE IF EXISTS Question;")
     cursor.execute("DROP TABLE IF EXISTS Questions;")
@@ -47,20 +47,20 @@ def createDataBase(cursor):
                             );'''
     cursor.execute(create_table_query)
 
-def getDBCursor():
+def getDBCursor(): # fetch a cursor pointed to database 
     hostname = '127.0.0.1'
-    username = 'postgres'
+    username = 'postgres' # username in database 
     passwordDB = '****' # please change/eneter the password 
-    databaseName = 'webApp'
+    databaseName = 'webApp' # name of database in PostgreSQL 
     connection = psycopg2.connect("dbname = "+databaseName+" user = "+username+" password = "+passwordDB+" host = localhost")
     cursor = connection.cursor()
     return cursor, connection
 
 def createDB():
-    cursor, connection = getDBCursor()
-    createDataBase(cursor)
-    cursor.execute("""Insert Into Account VALUES('admin', 'admin')""") # to be remove 
-    cursor.close()
-    connection.commit()
-    connection.close()
+    cursor, connection = getDBCursor() # fetch cursor 
+    createDataBase(cursor) # create new database 
+    cursor.execute("""Insert Into Account VALUES('admin', 'admin')""") # add initial user admin 
+    cursor.close() #  close cursor 
+    connection.commit() # save changes 
+    connection.close() 
     print("Database Created")
