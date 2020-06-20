@@ -1,4 +1,5 @@
-def formPaths(paths,synsetInit):
+# use for finding all possible paths 
+def formPaths(paths,synsetInit): # paths and the intial term 
     result = []
     previousHyp = None
     for value,synset in paths:
@@ -8,7 +9,7 @@ def formPaths(paths,synsetInit):
             addedArray = []
             previousWord = synset
             previousArray = []
-            for array in result: 
+            for array in result: # go through all possible paths  
                 previous = array[len(array)-1]
                 dist = 0
                 for (v,syn) in paths:
@@ -23,10 +24,10 @@ def formPaths(paths,synsetInit):
             for j in range(length-1):
                 result.append(addedArray.copy())
                 
-        else:
+        else: # if initial term  
             length = len(paths[(value,synset)])
             while length > 0:
-                result.append([synset])
+                result.append([synset]) # add initial term 
                 length -= 1
 
     
