@@ -9,95 +9,82 @@ import random
 from graphCreation.createNodesAndRelations import *
 from graphCreation.convertSynsetToString import *
 
-def addToFile(string):
-    f = open("graphCreation/cypherScript.txt", "r")
-    saveD = f.read()
-    f.close()
-    f = open("graphCreation/cypherScript.txt", "w")
-    f.write(saveD)
-    f.write(string+"\n")
-    f.close()
-
-def createSameRelation(dictSame, graph):
+def createSameRelation(dictSame, graph): # same relations creation, inputs: dictSame key is a term, value is also the term, both are related 
     for w in dictSame:
         for s in dictSame[w]: 
             query = ''' Match (t1:Term), (t2:Term) WHERE t1.name = "''' + w +'''" and t2.name = "''' + convertHypernymsToString([s])[0] +'''"
                         Merge (t1)-[:SAME]->(t2)
                         Merge (t2)-[:SAME]->(t1)'''
-            #addToFile(str(query))
+            
             graph.run(query)
 
-def createISARelation(wordsSame, hypernyms, graph):
+def createISARelation(wordsSame, hypernyms, graph): # Create ISA relations for SAME terms 
     for w in wordsSame:
         isaWords = hypernyms[w]
         for sameWord in wordsSame[w]:
             for isaWord in isaWords:
                 hypernymsWord = sameWord.hypernyms()
-                if isaWord in hypernymsWord:
+                if isaWord in hypernymsWord: 
                     query = ''' MATCH (t1:Term {name:"''' + convertHypernymsToString([sameWord])[0] + '''"}), (t2:Term {name:"'''+ convertHypernymsToString([isaWord])[0]+'''"}) 
                             MERGE (t1)-[:ISA]->(t2)'''
                     graph.run(query)
-                    print(convertHypernymsToString([sameWord])[0] , convertHypernymsToString([isaWord])[0])
 
-def findLevelWords(word,level, graph):
-    if level > 0:
+def findLevelWords(word,level, graph):# fetch all the terms at a certain level 
+    if level > 0: # positive level 
         query = ''' MATCH (t1:Term)-[:ISA*'''+str(level)+''']-> (t2:Term) WHERE t1.name = "'''+word+'''" RETURN t2'''
         nodes = graph.run(query)
 
-    elif level < 0:
+    elif level < 0: # negative level (below inital term)
         query = ''' MATCH (t1:Term)<-[:ISA*'''+str(-level)+''']-(t2:Term) WHERE t1.name = "'''+word+'''" RETURN t2'''
         nodes = graph.run(query)
     
     else:
-        return [word] 
+        return [word] # if level 0 return inital term 
     
     resultWords = []
     for node in nodes: 
-        resultWords.append(node[0]["name"])
+        resultWords.append(node[0]["name"]) # fetch all terms at a level 
     return resultWords 
 
 
-def generateSame(word,sequence,graph):
+def generateSame(word,sequence,graph): # create SAME nodes and relations 
     for seq in sequence: 
         level = seq[0]
-        numberSame = seq[1]
-        wordsLevel= findLevelWords(word, level, graph)
+        numberSame = seq[1] # number of same nodes per level 
+        wordsLevel= findLevelWords(word, level, graph) # fetch all the terms at a level 
 
         resultHyponyms = {}
-        #print()
-        #print("\nSame")
 
         allHypernyms = {}
-        for w in wordsLevel:
+        for w in wordsLevel: 
             words = []
             synonyms = wn.synsets(w)
             for s in synonyms: 
                 if convertHypernymsToString([s])[0] == w:
                     words.append(s)
-                    break # do not take othersynonyms what are close to the original meaning 
+                    break # do not take other synonyms what are close to the original meaning 
             
             for sW in words:
-                hypernyms = sW.hypernyms()
-                allHypernyms[sW] = hypernyms
+                hypernyms = sW.hypernyms() # find the hypernyms for a term 
+                allHypernyms[sW] = hypernyms 
                 for hyp in hypernyms:
-                    hyponyms = hyp.hyponyms()
+                    hyponyms = hyp.hyponyms() # find hyponyms for a hypernym 
                     array = convertHypernymsToString(hyponyms)
-                    if w in array:
+                    if w in array: # remove term fro which the hypernyms are selected if exists 
                         index = array.index(w)
                         hyponyms.pop(index)
                     if w not in resultHyponyms:
-                        resultHyponyms[w] = hyponyms
+                        resultHyponyms[w] = hyponyms # add to the result of Same terms array 
                     else:
                         resultHyponyms[w] += hyponyms
 
         result = {}
         for w in resultHyponyms: 
             array = resultHyponyms[w]
-            random.shuffle(array)
-            result[w] = array[:numberSame]
-            #print(w,result[w])
-
-        for w in result: 
+            random.shuffle(array) # shuffle the array of terms 
+            result[w] = array[:numberSame] # selected only the number of needed SAME terms 
+           
+        for w in result: # create nodes for SAME terms
             for s in result[w]:
                 createNode(s,graph)
 
@@ -105,7 +92,8 @@ def generateSame(word,sequence,graph):
         for w in allHypernyms:
             w2 = convertHypernymsToString([w])
             hyper[w2[0]] = allHypernyms[w]
-        print(result, hyper)
+       
+        #Create relations 
         createISARelation(result, hyper, graph)
         createSameRelation(result, graph)
  
