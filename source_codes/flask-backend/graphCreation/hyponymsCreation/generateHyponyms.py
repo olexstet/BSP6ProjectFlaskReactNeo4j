@@ -11,7 +11,7 @@ from graphCreation.convertSynsetToString import *
 from graphCreation.pathsCreation import *
 from graphCreation.hypernymsCreation.generateHypernyms import removeNonExistedNodes
 
-def checkOtherMeanings(word):
+def checkOtherMeanings(word): # check other possible meanings for a term in synset(future development if needed)
     words = []
     synonyms = wn.synsets(word)
     for s in synonyms: 
@@ -19,22 +19,21 @@ def checkOtherMeanings(word):
             words.append(s)
     return words 
 
-def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):
+def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):  # find next hyponyms 
     result = []
 
-    for synset in previousHyponyms: 
-        hyponyms = synset.hyponyms()
-        #print(synset, hyponyms)
+    for synset in previousHyponyms: # go though already founded hyponyms 
+        hyponyms = synset.hyponyms() # fetch new hyponyms 
         if type(numberHyp) == int: 
             length = len(hyponyms)
-            if length > numberHyp: 
-                result += hyponyms[:numberHyp]
-                paths[(dist,synset)] = hyponyms[:numberHyp]
-            else: 
-                result += hyponyms 
+            if length > numberHyp: # if number of hyponyms smaller than number founded hyponyms 
+                result += hyponyms[:numberHyp] # add to already founded hyponyms for the leve
+                paths[(dist,synset)] = hyponyms[:numberHyp] # add to path 
+            else: # if exactly the same number or lower 
+                result += hyponyms  # add to already founded hyponyms for the level 
                 paths[(dist,synset)] = hyponyms
-        else:
-            result += hyponyms
+        else: # if all hypernyms needed 
+            result += hyponyms 
             paths[(dist,synset)] = hyponyms
 
     previousHyponyms = result
@@ -43,8 +42,8 @@ def findHyponyms(word,dist,numberHyp,previousHyponyms,paths):
     return previousHyponyms,paths
 
 
-def generateHyponyms(sequenceHyp, word, graph):
-    previousHyponyms = [wn.synsets(word)[0]]
+def generateHyponyms(sequenceHyp, word, graph): # create hyponyms 
+    previousHyponyms = [wn.synsets(word)[0]] # initial hyponym = initial term 
     sequenceHyp = configureSequence(sequenceHyp)
     result = {}
     result[(0,0)] = previousHyponyms
@@ -52,52 +51,35 @@ def generateHyponyms(sequenceHyp, word, graph):
     dist = 0
     numberHyp = 0
     for seq in sequenceHyp:
-        dist = seq[0]
-        numberHyp = seq[1]
-        previousHyponyms,paths = findHyponyms(word,dist,numberHyp,previousHyponyms,paths)
+        dist = seq[0] # level 
+        numberHyp = seq[1] # number hyponyms needed for level 
+        previousHyponyms,paths = findHyponyms(word,dist,numberHyp,previousHyponyms,paths) # find next hyponyms 
           
         if (type(dist) and type(numberHyp)) == int:
-            result[(seq[0],seq[1])] = previousHyponyms
-
-    # print all hyponyms finded in the sequence
-    """
-    print("Hyponyms in sequence:")
-    for pos in result: 
-        print(pos, result[pos])
-    """
+            result[(seq[0],seq[1])] = previousHyponyms # used for storing the only hyponyms needed to create 
 
     createdNodes = []
+    # create hyponyms nodes 
     for seq in result:
         synsets = result[seq]
         for synset in synsets:
-            createNode(synset,graph)
+            createNode(synset,graph) # create node function 
             createdNodes.append(synset)
         
     _,paths = findHyponyms(word,dist+1,numberHyp,previousHyponyms,paths)
 
-    """
-    print("Paths of hyponyms:")
-    for p in paths: 
-        print(p,paths[p])
-    """
 
-    res = formPaths(paths,wn.synsets(word)[0])
+    res = formPaths(paths,wn.synsets(word)[0]) # find all possible paths  
 
-    """
-    print("All possible paths:")
-    for r in res:
-        print(r)
-    """
-
-    #print("\nRelations hyponyms")
-    res = removeNonExistedNodes(res, graph)
+    res = removeNonExistedNodes(res, graph) # remove terms which don't exist in graph 
+    # Create Relations 
     createdRel = []
     for r in res: 
         for i in range(1,len(r)):
             if [r[i],r[i-1]] not in createdRel:
                 createRelation(r[i],r[i-1],graph)
                 createdRel.append([r[i],r[i-1]])
-                #print(r[i-1],r[i])
+             
 
     return result
 
