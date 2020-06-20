@@ -4,6 +4,7 @@ import { Redirect } from "react-router-dom";
 import { Button } from "semantic-ui-react";
 
 class authentification extends Component {
+  /* State which contains all the attributes fo component */
   state = {
     username: "",
     password: "",
@@ -11,40 +12,39 @@ class authentification extends Component {
     redirect: false,
   };
 
-  myChangeHandlerUsername = async (event) => {
+  myChangeHandlerUsername = async (event) => { /* react to changes in username for handling th last changes */
     await this.setState({ username: event.target.value });
   };
 
-  myChangeHandlerPassword = async (event) => {
+  myChangeHandlerPassword = async (event) => {/* react to changes in password for handling th last changes */
     await this.setState({ password: event.target.value });
   };
 
+  /* Check if username and password are correct*/
   checkLogin = async () => {
     await axios
-      .post("http://127.0.0.1:5000/", {
-        dataLogin: {
+      .post("http://127.0.0.1:5000/", { /*send request to back-end */
+        dataLogin: {   /* data to send with request */
           username: this.state.username,
           password: this.state.password,
         },
-        typeRequest: "Login",
+        typeRequest: "Login", /* type of request */
       })
       .then(async (res) => {
-        console.log(res);
-        if (res.data === "Not Exists") {
+        if (res.data === "Not Exists") { /* if wrong data, message update */
           await this.setState({ message: "Login failed" });
         }
         if (res.data === "Exists") {
-          await this.setState({ message: "", redirect: true });
+          await this.setState({ message: "", redirect: true }); /*if data is true, set redirect to next page true */
         }
-        console.log(this.state.message);
       });
   };
 
   render() {
-    if (this.state.redirect === true) {
+    if (this.state.redirect === true) { /* When redirect true pass to Home page */
       return (
         <Redirect
-          to={{
+          to={{ /* pass parameters to next page */
             pathname: "/Home",
             data: this.state.username,
           }}
@@ -52,6 +52,7 @@ class authentification extends Component {
       );
     }
 
+    /*------------------------Style----------------------------- */
     const squareStyle = {
       marginLeft: "35%",
       marginTop: "10em",
@@ -70,6 +71,7 @@ class authentification extends Component {
       textAlign: "right",
     };
 
+    /*-----------------Elements------------------------------ */
     return (
       <div>
         <div id="square" style={squareStyle}>
