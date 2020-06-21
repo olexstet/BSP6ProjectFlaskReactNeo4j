@@ -4,7 +4,7 @@ import axios from "axios";
 
 class question3 extends Component {
   state = {
-    word: "apple",
+    word: this.props.term,
     randomWords: [],
     correctWords: [],
     numberCorrect: 0,
@@ -21,7 +21,6 @@ class question3 extends Component {
       .then((res) => {
         const data = res.data;
 
-        console.log(data);
         var correctWords = [];
         var randomWords = [];
         var numberCorrect = 0;
@@ -51,10 +50,9 @@ class question3 extends Component {
             numberCorrect = correctWords.length;
           }
           arrayWords = shuffle(arrayWords);
-          console.log(arrayWords);
         });
         this.setState({
-          word: "apple",
+          word: this.props.term,
           randomWords: randomWords,
           correctWords: correctWords,
           category: category,
@@ -96,3 +94,4 @@ class question3 extends Component {
 }
 
 export default question3;
+
