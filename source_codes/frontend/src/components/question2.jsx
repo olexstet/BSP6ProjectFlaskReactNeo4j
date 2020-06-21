@@ -4,8 +4,8 @@ import axios from "axios";
 
 export class question2 extends Component {
   state = {
-    word: "apple",
-    randomWords: [],
+    word: this.props.term,
+    randomWords: [], /* wrong words*/
     correctWords: [],
     numberCorrect: 0,
     arrayWords: [],
@@ -14,21 +14,20 @@ export class question2 extends Component {
 
   async componentDidMount() {
     await axios
-      .post("http://127.0.0.1:5000/", {
+      .post("http://127.0.0.1:5000/", { /* fetch words for question 2 at back-end*/ 
         typeRequest: "Q2",
         username: this.props.username,
       })
       .then((res) => {
         const data = res.data;
-
-        console.log(data);
+        
         var correctWords = [];
         var randomWords = [];
         var numberCorrect = 0;
         var category = "";
         var arrayWords = [];
 
-        function shuffle(array) {
+        function shuffle(array) { 
           for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]];
@@ -39,22 +38,22 @@ export class question2 extends Component {
         Object.entries(data).forEach(([key, value]) => {
           if (key !== "random") {
             for (var i = 0; i < value.length; i++) {
-              correctWords.push(value[i]);
-              arrayWords.push(value[i]);
+              correctWords.push(value[i]); /* correct words*/ 
+              arrayWords.push(value[i]); 
             }
-            category = key;
+            category = key; /* fetch category*/
           } else {
             for (i = 0; i < value.length; i++) {
-              randomWords.push(value[i]);
-              arrayWords.push(value[i]);
+              randomWords.push(value[i]); /* push random words*/
+              arrayWords.push(value[i]); /* add random words to correct words*/ 
             }
             numberCorrect = correctWords.length;
           }
-          arrayWords = shuffle(arrayWords);
-          console.log(arrayWords);
+          arrayWords = shuffle(arrayWords); /* shuffle array with all words*/ 
+          
         });
-        this.setState({
-          word: "apple",
+        this.setState({ /* update state*/ 
+          word: this.props.term,
           randomWords: randomWords,
           correctWords: correctWords,
           category: category,
@@ -65,6 +64,8 @@ export class question2 extends Component {
   }
 
   render() {
+
+    /* ----------------------------Styles------------------------*/ 
     const questionStyle = {
       marginLeft: "5%",
       borderStyle: "outset",
@@ -78,6 +79,7 @@ export class question2 extends Component {
 
     var id = 0;
 
+    /*----------------------------Components------------------------*/ 
     return (
       <div style={questionStyle}>
         <h3>Question 2</h3>
@@ -96,3 +98,4 @@ export class question2 extends Component {
 }
 
 export default question2;
+
