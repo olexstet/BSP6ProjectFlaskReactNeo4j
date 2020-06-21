@@ -4,7 +4,7 @@ def apostropheWord(word): # adapt a word for stroing to database
     res = ""
     for char in word:
         if char == "'":
-            res += "\\"+"'" # adaptation in case of aposthrophe 
+            res += "\'"+"'" # adaptation in case of aposthrophe 
         else:
             res += char
     return res 
