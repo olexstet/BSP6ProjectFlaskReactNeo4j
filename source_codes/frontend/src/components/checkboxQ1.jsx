@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Checkbox } from "semantic-ui-react";
 
-export class checkboxQ1 extends Component {
+export class checkboxQ1 extends Component { /* One checkbox for question one with a definition */
   render() {
     return (
       <div style={{ marginBottom: "5px" }}>
@@ -16,3 +16,4 @@ export class checkboxQ1 extends Component {
 }
 
 export default checkboxQ1;
+
