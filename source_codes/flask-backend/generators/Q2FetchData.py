@@ -50,7 +50,7 @@ def chooseRandomWords(words,N, typeW): # choose randomly missed words from wordN
             syn = exactWordComparaison(words[index], wn.synsets(words[index])) # fetch the right word 
             if len(syn) > 0:
                 typeWR = syn[0].pos()
-        print(words[index],wn.synsets(words[index]))
+        
         retrievedWords.append(words[index])
 
     random.shuffle(retrievedWords)
