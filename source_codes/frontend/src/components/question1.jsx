@@ -4,39 +4,30 @@ import axios from "axios";
 
 export class question1 extends Component {
   state = {
-    word: "apple",
+    word: this.props.term,
     definitions: [],
   };
 
   async componentDidMount() {
     await axios
-      .post("http://127.0.0.1:5000/", {
+      .post("http://127.0.0.1:5000/", { /* Send request for fetching the data for question 1 */
         typeRequest: "Q1",
         username: this.props.username,
       })
       .then((res) => {
         const data = res.data;
 
-        console.log(data);
-
-        /* NOT NEEDED, TO BE ERAISE
-        function shuffle(array) {
-          for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-          }
-          return array;
-        }*/
-
         var definitions = [];
-        Object.entries(data).forEach(([key,value]) => {
-          definitions.push(value);
+        Object.entries(data).forEach(([key,value]) => { /* fetch result*/
+          definitions.push(value); /* add definitions to an array*/ 
         });
-        this.setState({ word: "apple", definitions });
+        this.setState({ word: this.props.term, definitions });
       });
   }
 
   render() {
+
+    /*-------------------Styles-------------------------*/
     const questionStyle = {
       marginLeft: "5%",
       borderStyle: "outset",
@@ -51,6 +42,7 @@ export class question1 extends Component {
 
     var id = 0;
 
+    /*-----------------------Components------------------------*/
     return (
       <div style={questionStyle}>
         <h3>Question 1</h3>
